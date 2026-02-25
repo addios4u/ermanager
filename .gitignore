@@ -10,8 +10,7 @@ out/
 .npmrc
 
 # Claude
-CLAUDE.md
-.claude/
+.claude/settings.local.json
 .omc/
 
 # Compiled Java class files
