@@ -26,6 +26,7 @@ interface ToolbarProps {
   includeFk: boolean;
   onIncludeFkChange: (v: boolean) => void;
   onImportSQL: (tables: ImportedTable[]) => void;
+  onInstallClaudeSkill: () => void;
 }
 
 const btn: React.CSSProperties = {
@@ -81,6 +82,7 @@ export function Toolbar({
   onExport,
   includeFk, onIncludeFkChange,
   onImportSQL,
+  onInstallClaudeSkill,
 }: ToolbarProps) {
   const { zoomIn, zoomOut, fitView } = useReactFlow();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -407,6 +409,17 @@ export function Toolbar({
           )}
         </>
       )}
+
+      <div style={divider} />
+
+      {/* Claude 스킬 설치 버튼 */}
+      <button
+        style={{ ...btn, fontSize: 10, fontWeight: 'bold', letterSpacing: '-0.5px' }}
+        title={t('Install Claude Skill (~/.claude/skills/ermanager)')}
+        onClick={onInstallClaudeSkill}
+      >
+        AI
+      </button>
     </div>
   );
 }

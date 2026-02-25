@@ -252,6 +252,10 @@ function AppInner() {
     vscode.postMessage({ type: 'export-json', diagram: diagramRef.current });
   }, []);
 
+  const onInstallClaudeSkill = useCallback(() => {
+    vscode.postMessage({ type: 'install-claude-skill' });
+  }, []);
+
   // ── 테이블 추가 ────────────────────────────────────────────────────────────
   const onAddTable = useCallback((screenX: number, screenY: number) => {
     if (!diagramRef.current) return;
@@ -646,6 +650,7 @@ function AppInner() {
           includeFk={includeFk}
           onIncludeFkChange={setIncludeFk}
           onImportSQL={handleImportSQL}
+          onInstallClaudeSkill={onInstallClaudeSkill}
         />}
       <div style={{ width: '100%', height: '100%' }}>
     <NodeCallbacksContext.Provider value={nodeCallbacks}>

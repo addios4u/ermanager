@@ -1,3 +1,6 @@
+import * as fs from 'fs';
+import * as https from 'https';
+import * as os from 'os';
 import * as path from 'path';
 import * as vscode from 'vscode';
 import type { EditorMode, LayoutJson, ParsedDiagram } from './types';
@@ -103,6 +106,10 @@ export class ErdEditorProvider implements vscode.CustomTextEditorProvider {
         case 'export-json':
           await this.handleExportJson(document, message.diagram as ParsedDiagram);
           break;
+
+        case 'install-claude-skill':
+          await this.handleInstallClaudeSkill();
+          break;
       }
     });
 
@@ -175,6 +182,39 @@ export class ErdEditorProvider implements vscode.CustomTextEditorProvider {
     vscode.window.showInformationMessage(
       vscode.l10n.t('Save complete: {0}', `${path.basename(jsonUri.fsPath)}, ${path.basename(layoutUri.fsPath)}`)
     );
+  }
+
+  private async handleInstallClaudeSkill(): Promise<void> {
+    const skillDir = path.join(os.homedir(), '.claude', 'skills', 'ermanager');
+    const skillFile = path.join(skillDir, 'SKILL.md');
+    const rawUrl = 'https://raw.githubusercontent.com/addios4u/ermanager/main/.claude/skills/ermanager/SKILL.md';
+
+    try {
+      fs.mkdirSync(skillDir, { recursive: true });
+
+      const content = await new Promise<string>((resolve, reject) => {
+        https.get(rawUrl, (res) => {
+          if (res.statusCode !== 200) {
+            reject(new Error(`HTTP ${res.statusCode}`));
+            return;
+          }
+          let data = '';
+          res.on('data', (chunk: string) => { data += chunk; });
+          res.on('end', () => resolve(data));
+          res.on('error', reject);
+        }).on('error', reject);
+      });
+
+      fs.writeFileSync(skillFile, content, 'utf8');
+
+      vscode.window.showInformationMessage(
+        vscode.l10n.t('Claude skill installed! Use /ermanager in Claude Code.')
+      );
+    } catch (err) {
+      vscode.window.showErrorMessage(
+        vscode.l10n.t('Failed to install Claude skill: {0}', String(err))
+      );
+    }
   }
 
   private async applyEdit(document: vscode.TextDocument, content: string) {

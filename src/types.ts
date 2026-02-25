@@ -67,4 +67,5 @@ export type WebviewMessage =
   | { type: 'save'; content: string }
   | { type: 'save-layout'; layout: LayoutJson }
   | { type: 'save-schema'; schema: unknown }
-  | { type: 'export-json'; diagram: ParsedDiagram };
+  | { type: 'export-json'; diagram: ParsedDiagram }
+  | { type: 'install-claude-skill' };
