@@ -215,7 +215,7 @@ function parseErm(xmlString) {
 const xmlStr = fs.readFileSync(inputPath, 'utf8');
 const diagram = parseErm(xmlStr);
 
-// .erm.json 포맷 (layout 필드 제외)
+// .erm.json (schema)
 const schema = {
   database: diagram.database,
   tables: diagram.tables.map(({ id, physicalName, logicalName, description, columns }) => ({
@@ -225,8 +225,23 @@ const schema = {
   categories: diagram.categories,
 };
 
+// .erm.layout.json (위치 정보)
+const layout = {
+  tables: Object.fromEntries(
+    diagram.tables.map(({ id, x, y, width, height }) => [
+      String(id),
+      { x, y, width, height },
+    ])
+  ),
+};
+
+const layoutPath = outputPath.replace(/\.erm\.json$/, '.erm.layout.json');
+
 fs.writeFileSync(outputPath, JSON.stringify(schema, null, 2), 'utf8');
+fs.writeFileSync(layoutPath, JSON.stringify(layout, null, 2), 'utf8');
 
 const totalCols = schema.tables.reduce((s, t) => s + t.columns.length, 0);
-console.log(`✅ 변환 완료: ${outputPath}`);
+console.log(`✅ 변환 완료`);
+console.log(`   ${outputPath}`);
+console.log(`   ${layoutPath}`);
 console.log(`   테이블 ${schema.tables.length}개 / 컬럼 ${totalCols}개 / 관계 ${schema.relations.length}개`);
