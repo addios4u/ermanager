@@ -5,9 +5,20 @@ description: ERManager DB schema design and coding assistant. Designs new ERDs f
 
 # ERManager 스킬
 
+## 번들 도구
+
+이 스킬과 함께 `.claude/skills/ermanager/parse_erm.js`가 설치되어 있습니다.
+`.erm` XML 파일을 `.erm.json` + `.erm.layout.json`으로 변환합니다:
+
+```bash
+node .claude/skills/ermanager/parse_erm.js <input.erm> [output.erm.json]
+```
+
+---
+
 ERManager(VS Code 익스텐션)의 `.erm.json` 스키마 파일을 이해하고 네 가지 작업을 수행합니다:
 
-1. **변환 모드** — `.erm` (XML) 파일 → `.erm.json` 변환 (`parse_erm.js` 사용)
+1. **변환 모드** — `.erm` (XML) 파일 → `.erm.json` + `.erm.layout.json` 변환 (`parse_erm.js` 사용)
 2. **SQL 모드** — SQL DDL 파일 → `.erm.json` 생성
 3. **설계 모드** — 자연어 요구사항 → `.erm.json` 파일 생성
 4. **컨텍스트 모드** — 기존 `.erm.json` 분석 → 코드 작성 지원
