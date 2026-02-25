@@ -1,0 +1,72 @@
+{
+  "name": "ermanager",
+  "displayName": "ERManager",
+  "description": "DB ER Diagram editor for VS Code",
+  "version": "0.0.1",
+  "publisher": "ermanager",
+  "packageManager": "pnpm@10.26.1",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "l10n": "./l10n",
+  "contributes": {
+    "customEditors": [
+      {
+        "viewType": "ermanager.erdEditor",
+        "displayName": "ERD Editor",
+        "selector": [
+          {
+            "filenamePattern": "*.erm"
+          },
+          {
+            "filenamePattern": "*.erm.json"
+          }
+        ],
+        "priority": "default"
+      }
+    ]
+  },
+  "scripts": {
+    "compile": "node esbuild.mjs",
+    "watch": "node esbuild.mjs --watch",
+    "lint": "eslint src webview-src --ext ts,tsx",
+    "package": "vsce package",
+    "test": "node ./out/test/runTest.js"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "@vscode/vsce-sign",
+      "keytar"
+    ]
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.0",
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "@types/vscode": "^1.85.0",
+    "@vscode/test-electron": "^2.3.0",
+    "@vscode/vsce": "^2.22.0",
+    "@xyflow/react": "^12.0.0",
+    "esbuild": "^0.25.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "typescript": "^5.3.0"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/addios4u/ermanager"
+  },
+  "dependencies": {
+    "@monaco-editor/react": "^4.7.0",
+    "@vscode/l10n": "^0.0.18",
+    "monaco-editor": "^0.55.1"
+  }
+}
