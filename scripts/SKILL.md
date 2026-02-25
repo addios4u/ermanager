@@ -5,14 +5,17 @@ description: ERManager DB schema design and coding assistant. Designs new ERDs f
 
 # ERManager 스킬
 
-## 번들 도구
+## 번들 도구 — 반드시 사용할 것
 
-이 스킬과 함께 `.claude/skills/ermanager/parse_erm.js`가 설치되어 있습니다.
-`.erm` XML 파일을 `.erm.json` + `.erm.layout.json`으로 변환합니다:
+`.erm` 파일이 주어지면 **절대 파서를 직접 작성하지 말 것**.
+`.claude/skills/ermanager/parse_erm.js`가 이미 설치되어 있으며 반드시 이것을 사용한다:
 
 ```bash
 node .claude/skills/ermanager/parse_erm.js <input.erm> [output.erm.json]
 ```
+
+이 명령 하나로 `.erm.json` + `.erm.layout.json` 두 파일이 동시에 생성된다.
+Python, 다른 언어, 새 스크립트 작성 — 모두 금지.
 
 ---
 
