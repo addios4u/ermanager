@@ -1,5 +1,10 @@
 # ERManager
 
+[![Version](https://img.shields.io/visual-studio-marketplace/v/addios4u.ermanager)](https://marketplace.visualstudio.com/items?itemName=addios4u.ermanager)
+[![Installs](https://img.shields.io/visual-studio-marketplace/i/addios4u.ermanager)](https://marketplace.visualstudio.com/items?itemName=addios4u.ermanager)
+[![Downloads](https://img.shields.io/visual-studio-marketplace/d/addios4u.ermanager)](https://marketplace.visualstudio.com/items?itemName=addios4u.ermanager)
+[![Rating](https://img.shields.io/visual-studio-marketplace/r/addios4u.ermanager)](https://marketplace.visualstudio.com/items?itemName=addios4u.ermanager)
+
 **ERManager** is a VS Code / Cursor extension for designing and editing database ER diagrams directly inside your editor.
 
 Open `.erm.json` files as a visual diagram editor, or view legacy ERMaster `.erm` files as read-only diagrams — no external tools required.
