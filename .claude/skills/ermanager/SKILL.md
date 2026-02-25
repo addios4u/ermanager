@@ -257,6 +257,65 @@ ERManager(VS Code 익스텐션)의 `.erm.json` 스키마 파일을 이해하고 
 
 ---
 
+## 모드 0: SQL DDL 파일 → .erm.json 변환
+
+### 트리거
+- "이 SQL 파일로 .erm.json 만들어줘"
+- "Member.sql 변환해줘"
+- SQL DDL 파일이 제공된 경우
+
+### SQL 파싱 규칙
+
+**테이블 정보:**
+- `CREATE TABLE 테이블명` → `physicalName`
+- 테이블 바로 위 `-- 설명` 주석 → 테이블 `description` 및 `logicalName`
+- `WITHOUT OIDS`, `ENGINE=`, `CHARSET=` 등 DB 옵션은 무시
+
+**컬럼 정보:**
+- 컬럼 바로 위 `-- 설명` 주석 → 해당 컬럼 `description` 및 `logicalName`
+- `NOT NULL` → `isNotNull: true` (없으면 `false`)
+- `UNIQUE` → `isUniqueKey: true`
+- `DEFAULT 값` → **무시** (`.erm.json`에 `defaultValue` 필드 없음)
+- 컬럼에 직접 `PRIMARY KEY` → `isPrimaryKey: true`
+- `PRIMARY KEY (col)` 테이블 레벨 선언 → 해당 컬럼 `isPrimaryKey: true`
+
+**FK 처리 — 명시적 선언이 있는 경우:**
+```sql
+FOREIGN KEY (member_idx) REFERENCES member (idx)
+```
+→ `member_idx` 컬럼: `isForeignKey: true`, `referencedColumn: {member.idx의 컬럼id}`, `relationId: {새 relation id}`
+
+**FK 처리 — 명시적 선언이 없는 경우 (추론):**
+- `xxx_idx` 패턴의 컬럼은 FK 후보로 추론
+- 단, 100% 확신할 수 없으므로 변환 후 사용자에게 "다음 컬럼을 FK로 추론했습니다. 맞으면 확인해주세요" 알림
+- 추론 FK도 동일하게 3종 세트 적용
+
+**여러 테이블이 같은 부모 PK를 참조할 때:**
+- 각 FK 컬럼마다 **고유한 relation id** 사용 (절대 공유 금지)
+- 각 FK마다 별도 relation 객체 생성
+- `referencedColumn`은 모두 같은 부모 PK 컬럼 id를 가리킴
+
+```
+예: 모두 member.idx (컬럼 id: 100)를 참조
+- log_cash.member_idx    → relationId: 0, referencedColumn: 100
+- log_login.member_idx   → relationId: 1, referencedColumn: 100
+- member_withdraw.member_idx → relationId: 2, referencedColumn: 100
+
+relations 배열:
+[
+  { "id": 0, "sourceTableId": 1, "targetTableId": 0, ... },
+  { "id": 1, "sourceTableId": 2, "targetTableId": 0, ... },
+  { "id": 2, "sourceTableId": 3, "targetTableId": 0, ... }
+]
+```
+
+**타입 변환:**
+- SQL 타입을 그대로 `type` 필드에 사용 (변환하지 않음)
+- 예: `varchar(50)` → `"varchar(50)"`, `character(1)` → `"character(n)"`, `xml` → `"xml"`, `boolean` → `"boolean"`, `char(1)` → `"char(n)"`
+- 단, ERManager 관례상 가변 길이 타입은 `varchar(n)`, `character(n)` 형식 권장
+
+---
+
 ## 모드 1: ERD 설계 (자연어 → .erm.json 생성)
 
 ### 트리거
@@ -326,10 +385,14 @@ ERManager(VS Code 익스텐션)의 `.erm.json` 스키마 파일을 이해하고 
 | 논리 타입 | PostgreSQL | MySQL | SQLite |
 |-----------|-----------|-------|--------|
 | 자동증가 PK | `serial` | `int` | `integer` |
-| 문자열 | `varchar(n)` | `varchar(n)` | `text` |
+| 문자열 (가변) | `varchar(n)` | `varchar(n)` | `text` |
+| 문자열 (고정) | `character(n)` | `char(n)` | `text` |
 | 긴 텍스트 | `text` | `text` | `text` |
 | 정수 | `integer` | `int` | `integer` |
 | 실수 | `numeric(p,s)` | `decimal(p,s)` | `real` |
 | 불리언 | `boolean` | `tinyint(1)` | `integer` |
 | 날짜시간 | `timestamp` | `datetime` | `text` |
 | JSON | `jsonb` | `json` | `text` |
+| XML | `xml` | `text` | `text` |
+
+> **ERManager 관례**: 길이 가변 타입은 `varchar(n)`, `character(n)` 형식 그대로 사용 (n을 숫자로 바꾸지 않음)
