@@ -108,7 +108,7 @@ export class ErdEditorProvider implements vscode.CustomTextEditorProvider {
           break;
 
         case 'install-claude-skill':
-          await this.handleInstallClaudeSkill();
+          await this.handleInstallClaudeSkill(document);
           break;
       }
     });
@@ -184,8 +184,10 @@ export class ErdEditorProvider implements vscode.CustomTextEditorProvider {
     );
   }
 
-  private async handleInstallClaudeSkill(): Promise<void> {
-    const skillDir = path.join(os.homedir(), '.claude', 'skills', 'ermanager');
+  private async handleInstallClaudeSkill(document: vscode.TextDocument): Promise<void> {
+    const workspaceRoot = vscode.workspace.getWorkspaceFolder(document.uri)?.uri.fsPath
+      ?? path.dirname(document.uri.fsPath);
+    const skillDir = path.join(workspaceRoot, '.claude', 'skills', 'ermanager');
     const skillFile = path.join(skillDir, 'SKILL.md');
     const rawUrl = 'https://raw.githubusercontent.com/addios4u/ermanager/main/.claude/skills/ermanager/SKILL.md';
 
