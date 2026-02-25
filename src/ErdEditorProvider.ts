@@ -1,6 +1,3 @@
-import * as fs from 'fs';
-import * as https from 'https';
-import * as os from 'os';
 import * as path from 'path';
 import * as vscode from 'vscode';
 import type { EditorMode, LayoutJson, ParsedDiagram } from './types';
@@ -188,33 +185,25 @@ export class ErdEditorProvider implements vscode.CustomTextEditorProvider {
     const workspaceRoot = vscode.workspace.getWorkspaceFolder(document.uri)?.uri.fsPath
       ?? path.dirname(document.uri.fsPath);
     const skillDir = path.join(workspaceRoot, '.claude', 'skills', 'ermanager');
-    const skillFile = path.join(skillDir, 'SKILL.md');
-    const rawUrl = 'https://raw.githubusercontent.com/addios4u/ermanager/main/.claude/skills/ermanager/SKILL.md';
+    const skillDirUri = vscode.Uri.file(skillDir);
 
     try {
-      fs.mkdirSync(skillDir, { recursive: true });
+      await vscode.workspace.fs.createDirectory(skillDirUri);
 
-      const content = await new Promise<string>((resolve, reject) => {
-        https.get(rawUrl, (res) => {
-          if (res.statusCode !== 200) {
-            reject(new Error(`HTTP ${res.statusCode}`));
-            return;
-          }
-          let data = '';
-          res.on('data', (chunk: string) => { data += chunk; });
-          res.on('end', () => resolve(data));
-          res.on('error', reject);
-        }).on('error', reject);
-      });
-
-      fs.writeFileSync(skillFile, content, 'utf8');
+      const filesToInstall = ['SKILL.md', 'parse_erm.js'];
+      for (const file of filesToInstall) {
+        const src = vscode.Uri.joinPath(this.context.extensionUri, 'scripts', file);
+        const dest = vscode.Uri.file(path.join(skillDir, file));
+        const bytes = await vscode.workspace.fs.readFile(src);
+        await vscode.workspace.fs.writeFile(dest, bytes);
+      }
 
       const answer = await vscode.window.showInformationMessage(
-        vscode.l10n.t('Claude skill installed: {0}', skillFile),
+        vscode.l10n.t('Claude skill installed: {0}', skillDir),
         vscode.l10n.t('Open Folder')
       );
       if (answer === vscode.l10n.t('Open Folder')) {
-        vscode.commands.executeCommand('revealFileInOS', vscode.Uri.file(skillFile));
+        vscode.commands.executeCommand('revealFileInOS', vscode.Uri.file(skillDir));
       }
     } catch (err) {
       vscode.window.showErrorMessage(
