@@ -1,16 +1,30 @@
 {
   "name": "ermanager",
   "displayName": "ERManager",
-  "description": "DB ER Diagram editor for VS Code",
-  "version": "0.0.1",
-  "publisher": "ermanager",
+  "description": "Visual ER Diagram editor for database design — create, edit, and visualize your DB schema directly in VS Code",
+  "version": "0.1.0",
+  "publisher": "addios4u",
   "packageManager": "pnpm@10.26.1",
   "engines": {
     "vscode": "^1.85.0"
   },
+  "icon": "images/logo.png",
   "categories": [
+    "Visualization",
     "Other"
   ],
+  "keywords": [
+    "ER diagram",
+    "ERD",
+    "database",
+    "schema",
+    "SQL",
+    "entity relationship"
+  ],
+  "galleryBanner": {
+    "color": "#4F46E5",
+    "theme": "dark"
+  },
   "activationEvents": [],
   "main": "./out/extension.js",
   "l10n": "./l10n",
@@ -35,7 +49,7 @@
     "compile": "node esbuild.mjs",
     "watch": "node esbuild.mjs --watch",
     "lint": "eslint src webview-src --ext ts,tsx",
-    "package": "vsce package",
+    "package": "vsce package --no-dependencies -o out/ermanager-$npm_package_version.vsix",
     "test": "node ./out/test/runTest.js"
   },
   "pnpm": {

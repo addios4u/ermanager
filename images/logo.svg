@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4F46E5"/>
+      <stop offset="100%" style="stop-color:#7C3AED"/>
+    </linearGradient>
+    <linearGradient id="line" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#A5B4FC"/>
+      <stop offset="100%" style="stop-color:#C4B5FD"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background rounded rect -->
+  <rect width="128" height="128" rx="24" fill="url(#bg)"/>
+
+  <!-- Left table entity -->
+  <rect x="16" y="32" width="36" height="44" rx="4" fill="white" opacity="0.95"/>
+  <!-- Left table header -->
+  <rect x="16" y="32" width="36" height="12" rx="4" fill="#312E81"/>
+  <rect x="16" y="40" width="36" height="4" fill="#312E81"/>
+  <!-- Left table rows -->
+  <line x1="20" y1="52" x2="48" y2="52" stroke="#A5B4FC" stroke-width="2" stroke-linecap="round"/>
+  <line x1="20" y1="60" x2="44" y2="60" stroke="#C4B5FD" stroke-width="2" stroke-linecap="round"/>
+  <line x1="20" y1="68" x2="46" y2="68" stroke="#A5B4FC" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Right table entity -->
+  <rect x="76" y="52" width="36" height="44" rx="4" fill="white" opacity="0.95"/>
+  <!-- Right table header -->
+  <rect x="76" y="52" width="36" height="12" rx="4" fill="#312E81"/>
+  <rect x="76" y="60" width="36" height="4" fill="#312E81"/>
+  <!-- Right table rows -->
+  <line x1="80" y1="72" x2="108" y2="72" stroke="#A5B4FC" stroke-width="2" stroke-linecap="round"/>
+  <line x1="80" y1="80" x2="104" y2="80" stroke="#C4B5FD" stroke-width="2" stroke-linecap="round"/>
+  <line x1="80" y1="88" x2="106" y2="88" stroke="#A5B4FC" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Relationship line connecting tables -->
+  <path d="M52 54 L64 54 L64 72 L76 72" fill="none" stroke="url(#line)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Relationship diamond -->
+  <polygon points="64,58 70,63 64,68 58,63" fill="#FBBF24" opacity="0.9"/>
+
+  <!-- One-to-many indicators -->
+  <!-- "1" side (left) -->
+  <circle cx="53" cy="54" r="2.5" fill="#FBBF24"/>
+  <!-- "many" side (right) - crow's foot -->
+  <line x1="76" y1="72" x2="72" y2="68" stroke="#FBBF24" stroke-width="2" stroke-linecap="round"/>
+  <line x1="76" y1="72" x2="72" y2="76" stroke="#FBBF24" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- "ER" text at bottom -->
+  <text x="64" y="116" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-weight="800" font-size="16" fill="white" letter-spacing="2">ER</text>
+</svg>
