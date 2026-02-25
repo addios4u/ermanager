@@ -209,9 +209,13 @@ export class ErdEditorProvider implements vscode.CustomTextEditorProvider {
 
       fs.writeFileSync(skillFile, content, 'utf8');
 
-      vscode.window.showInformationMessage(
-        vscode.l10n.t('Claude skill installed! Use /ermanager in Claude Code.')
+      const answer = await vscode.window.showInformationMessage(
+        vscode.l10n.t('Claude skill installed: {0}', skillFile),
+        vscode.l10n.t('Open Folder')
       );
+      if (answer === vscode.l10n.t('Open Folder')) {
+        vscode.commands.executeCommand('revealFileInOS', vscode.Uri.file(skillFile));
+      }
     } catch (err) {
       vscode.window.showErrorMessage(
         vscode.l10n.t('Failed to install Claude skill: {0}', String(err))

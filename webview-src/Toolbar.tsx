@@ -414,11 +414,26 @@ export function Toolbar({
 
       {/* Claude 스킬 설치 버튼 */}
       <button
-        style={{ ...btn, fontSize: 10, fontWeight: 'bold', letterSpacing: '-0.5px' }}
-        title={t('Install Claude Skill (~/.claude/skills/ermanager)')}
+        style={{
+          ...btn,
+          width: 'auto',
+          padding: '0 8px',
+          fontSize: 11,
+          fontWeight: 'bold',
+          gap: 3,
+          display: 'flex',
+          alignItems: 'center',
+          background: 'var(--vscode-button-background, #0078d4)',
+          color: 'var(--vscode-button-foreground, #fff)',
+          border: 'none',
+        }}
+        title={t('Install Claude Skill to .claude/skills/ermanager/SKILL.md')}
         onClick={onInstallClaudeSkill}
       >
-        AI
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+        </svg>
+        {t('Skill')}
       </button>
     </div>
   );
