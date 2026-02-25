@@ -78,9 +78,11 @@ View and convert ERMaster XML (`.erm`) files — export them to `.erm.json` + `.
 ## Getting Started
 
 1. Install **ERManager** from the VS Code Marketplace.
-2. Create or open a `*.erm.json` file — ERManager opens it automatically as a diagram editor.
+2. **New diagram** — Create a new file named `yourschema.erm.json`. ERManager opens it automatically as a blank diagram editor.
 3. Right-click on the canvas to add a table.
 4. Drag from a table handle to another table to create a relationship.
+
+> **Migrating from ERMaster?** Open your `.erm` file, click the save button to generate `.erm.json`, then open it for full editing. See [Viewer Mode](#viewer-mode-erm) for details.
 
 ---
 
@@ -101,6 +103,12 @@ Full editing capabilities are available.
 Read-only visualization of legacy ERMaster files.
 
 - **Export to JSON** — toolbar save button converts to `.erm.json` + `.erm.layout.json`
+
+> **Workflow: migrating from ERMaster**
+> 1. Open your `.erm` file — ERManager displays it as a read-only diagram
+> 2. Click the **save** button in the toolbar to export
+> 3. Two files are generated: `yourfile.erm.json` (schema) and `yourfile.erm.layout.json` (layout)
+> 4. Open `yourfile.erm.json` — full editing is now available
 
 ---
 
