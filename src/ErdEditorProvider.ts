@@ -107,6 +107,12 @@ export class ErdEditorProvider implements vscode.CustomTextEditorProvider {
         case 'install-claude-skill':
           await this.handleInstallClaudeSkill(document);
           break;
+
+        case 'open-external':
+          if (typeof message.url === 'string') {
+            vscode.env.openExternal(vscode.Uri.parse(message.url));
+          }
+          break;
       }
     });
 
@@ -237,7 +243,7 @@ export class ErdEditorProvider implements vscode.CustomTextEditorProvider {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'nonce-${nonce}'; style-src ${webview.cspSource} 'unsafe-inline'; font-src ${webview.cspSource} data:; worker-src blob:;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'nonce-${nonce}'; style-src ${webview.cspSource} 'unsafe-inline'; font-src ${webview.cspSource} data:; img-src https://cdn.buymeacoffee.com; worker-src blob:;">
   <link rel="stylesheet" href="${cssUri}">
   <title>ERManager</title>
   <style>

@@ -5,7 +5,7 @@
             "name": "Run Extension",
             "type": "extensionHost",
             "request": "launch",
-            "args": ["--extensionDevelopmentPath=${workspaceFolder}", "${workspaceFolder}/Users/addios4u/git/nestify"],
+            "args": ["--extensionDevelopmentPath=${workspaceFolder}", "${workspaceFolder}/test-fixtures"],
             "outFiles": ["${workspaceFolder}/out/**/*.js"],
             "preLaunchTask": "build"
         }

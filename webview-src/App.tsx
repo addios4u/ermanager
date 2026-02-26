@@ -653,6 +653,12 @@ function AppInner() {
           onInstallClaudeSkill={onInstallClaudeSkill}
         />}
       <div style={{ width: '100%', height: '100%' }}>
+    <img
+      src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
+      alt="Buy Me a Coffee"
+      style={{ position: 'absolute', top: 170, right: 15, zIndex: 5, height: 32, cursor: 'pointer', borderRadius: 6, opacity: 0.85 }}
+      onClick={() => vscode.postMessage({ type: 'open-external', url: 'https://buymeacoffee.com/addios4u' })}
+    />
     <NodeCallbacksContext.Provider value={nodeCallbacks}>
       <ReactFlow
         nodes={nodes}
@@ -685,6 +691,7 @@ function AppInner() {
           pannable
           zoomable
         />
+
 
         {contextMenu && (
           <ContextMenu
