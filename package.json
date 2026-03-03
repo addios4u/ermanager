@@ -2,7 +2,7 @@
     "name": "ermanager",
     "displayName": "ERManager",
     "description": "Visual ER Diagram editor for database design — create, edit, and visualize your DB schema directly in VS Code",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "publisher": "addios4u",
     "packageManager": "pnpm@10.26.1",
     "engines": {
